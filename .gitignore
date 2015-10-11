@@ -1,0 +1,42 @@
+# Ignore everything
+*
+# ...even if they are in subdirectories
+!*/
+
+# But not these files...
+!.gitignore
+## Scripts
+!*.pl
+!*.py
+!*.m
+!*.tcl
+!*.sdc
+!*.run
+## Documentation
+!*.cls
+!*.sty
+!*.tex
+!*.eps
+!*.png
+!*.jpg
+!*.od*
+## VHDL, Verilog and SystemVerilog
+!*.v
+!*.sv
+!*.vh
+!*.vhdl
+## C
+!*.c
+!*.h
+## Reports
+!*.rpt
+!*.html
+## Quartus Project Files
+!*.qpf
+!*.qsf
+!*.qdf
+!*.sda
+!*.fit
+!*.map
+!*.pin
+# etc...
