@@ -1,28 +1,21 @@
-module control_rgb(button_red, button_green, button_blue, button_yellow, led_red, led_green, led_blue);
-	input button_red;
-	input button_green;
-	input button_blue;
-	input button_yellow;
-	output led_red = 1, led_green = 1, led_blue;
-	
-	always @(button_yellow or button_blue or button_green or button_red) begin
-		if (button_red == 1) begin
-			led_red <= 0;
-			led_green <= 1;
-			led_blue <= 1;
-		end else if (button_green == 1) begin
-			led_green <= 0;
-			led_red <= 1;
-			led_blue <= 1;
-		end else if (button_blue == 1) begin
-			led_blue <= 0;
-			led_red <= 1;
-			led_green <= 1;
-		end else begin
-			led_red <= 0;
-			led_green <= 0;
-			led_blue <= 1;
+module control_rgb(button_red, button_green, rst, button_blue, button_yellow, led_red, led_green, led_blue);
+	input button_red, button_green, button_blue, button_yellow;
+	input rst;
+	logic [2:0] led;	
+	output led_red, led_green, led_blue;
+		
+	always @(button_yellow or button_blue or button_green or button_red or rst) begin
+		if (rst) led = 3'b000;
+		else begin 
+			if (button_red) led = 3'b100; 
+			else if (button_green) led = 3'b010;
+			else if (button_blue) led = 3'b001;
+			else if (button_yellow) led = 3'b101;
+			else led = 3'b000;
 		end
+		led_red = led[2];
+		led_green = led[1];
+		led_blue = led[0];
 	end
 endmodule
 
