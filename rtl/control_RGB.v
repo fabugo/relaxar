@@ -10,11 +10,11 @@ module control_rgb(button_red, button_green, rst, button_blue, button_yellow, le
 			if (button_red) led = 3'b100; 
 			else if (button_green) led = 3'b010;
 			else if (button_blue) led = 3'b001;
-			else if (button_yellow) led = 3'b101;
+			else if (button_yellow) led = 3'b110;
 			else led = 3'b000;
 		end
-		led_red = led[2];
-		led_green = led[1];
+		led_green = led[2];
+		led_red = led[1];
 		led_blue = led[0];
 	end
 endmodule
