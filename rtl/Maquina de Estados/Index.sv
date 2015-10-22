@@ -16,7 +16,7 @@ module Index
 );
 
   // 00 = Vermelho, 01 = Azul, 10 = Amarelo, 11 = Verde
- 
+  logic exibindo_sequencia;
   reg Copia_Modo_Jogo;
   reg [1:0] botao;
   reg [2:0] estado, prox_estado; 
@@ -36,10 +36,33 @@ module Index
   
 	  case(estado)
 	  3'b000: begin // Estado Ocioso: Permanece nesse estado enquanto o botao nao for precionado ¨ ------------	
-		if(Iniciar_Jogo)
+		if(Iniciar_Jogo & exibindo_sequencia==0)
 			prox_estado = 3'b001;
-		else if(~Iniciar_Jogo)
-			prox_estado = 3'b000;	  
+
+		else if(Bot_Ultima_Sequencia | exibindo_sequencia) 
+			
+			if((AUXSequencia_Atual/2) <= Sequencia_Atual) begin 
+				botao[0] = Sequencia_Cores[AUXSequencia_Atual];
+				botao[1] = Sequencia_Cores[AUXSequencia_Atual+1];
+				case(botao)
+					2'b00: Led_RGB = 3'b011; // Vermelho_Verde_Azul - VERMELHO
+					2'b01: Led_RGB = 3'b110; // Vermelho_Verde_Azul - AZUL 
+					2'b10: Led_RGB = 3'b001; // Vermelho_Verde_Azul COR AMARELO 
+					2'b11: Led_RGB = 3'b101; // Vermelho_Verde_Azul COR VERDE 
+				endcase
+				
+				if(ContaSegundo<UmSegundo) 
+					ContaSegundo = ContaSegundo + 1;
+				else begin // A cor ficou acesa por um segundo
+					AUXSequencia_Atual = AUXSequencia_Atual+2;
+					ContaSegundo = 0;
+				end
+				
+				exibindo_sequencia = 1'b1;
+				
+			end else 
+				exibindo_sequencia = 1'b0;
+		
 	  end
 	  
 	  3'b001: begin // Estado Configuracao: Configura o jogo de acordo com o modo e o nivel
